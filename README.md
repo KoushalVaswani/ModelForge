@@ -8,7 +8,7 @@ ModelForge is an interactive Streamlit application that lets you upload a datase
 [![Python](https://img.shields.io/badge/python-3.9%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge)](#-license)
 
-![ModelForge Banner](ModelForge.png)
+![ModelForge Banner](Screenshot 2026-08-19 074647.png)
 
 ---
 
