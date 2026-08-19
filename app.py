@@ -48,8 +48,8 @@ st.markdown(
         .stApp {{
             background:
                 linear-gradient(
-                    rgba(5, 7, 13, 0.88),
-                    rgba(5, 7, 13, 0.88)
+                    rgba(5, 7, 13, 0.55),
+                    rgba(5, 7, 13, 0.55)
                 ),
                 url("data:image/png;base64,{encoded_image}");
 
