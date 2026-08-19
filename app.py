@@ -332,13 +332,6 @@ def evaluate_best_model(X, y, best_estimator, problem_type):
         }
 
 
-
-st.set_page_config(
-    page_title="ModelForge",
-    page_icon="🤖",
-    layout="wide"
-)
-
 st.markdown(
     '<div class="main-title">⚒️ ModelForge</div>',
     unsafe_allow_html=True
@@ -403,7 +396,7 @@ if uploaded_file is not None:
 
     st.dataframe(
         df.head(10),
-        use_container_width=True
+        width="stretch"
     )
 
     # =========================================================
@@ -421,7 +414,7 @@ if uploaded_file is not None:
 
     st.dataframe(
         column_info,
-        use_container_width=True
+        width="stretch"
     )
 
     # =========================================================
@@ -572,7 +565,7 @@ if uploaded_file is not None:
 
                 st.dataframe(
                     results_df,
-                    use_container_width=True
+                    width="stretch"
                 )
                 st.subheader("📊 Model Performance Comparison")
 
@@ -586,7 +579,7 @@ if uploaded_file is not None:
 
                     st.bar_chart(
                         chart_df,
-                        use_container_width=True
+                        width="stretch"
                     )
 
                 else:
@@ -599,7 +592,7 @@ if uploaded_file is not None:
 
                     st.bar_chart(
                         chart_df,
-                        use_container_width=True
+                        width="stretch"
                     )
 
         # =====================================================
@@ -681,34 +674,10 @@ if uploaded_file is not None:
 
                 st.dataframe(
                     display_df,
-                    use_container_width=True
+                    width="stretch"
                 )
                 # =====================================================
                 # BEST MODEL SELECTION
-                # =====================================================
-
-                best_result = tuning_df.iloc[0]
-
-                best_model_name = best_result["Model"]
-                best_score = best_result["Best Score"]
-                best_parameters = best_result["Best Parameters"]
-                best_estimator = best_result["Best Estimator"]
-
-
-                # =====================================================
-                # RECOMMENDED MODEL
-                # =====================================================
-
-                best_result = tuning_df.iloc[0]
-
-                best_model_name = best_result["Model"]
-                best_score = best_result["Best Score"]
-                best_parameters = best_result["Best Parameters"]
-                best_estimator = best_result["Best Estimator"]
-
-
-                # =====================================================
-                # RECOMMENDED MODEL
                 # =====================================================
 
                 best_result = tuning_df.iloc[0]
