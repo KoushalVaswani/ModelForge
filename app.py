@@ -144,15 +144,15 @@ st.markdown(
            ================================ */
 
         div[data-testid="stMetric"] {{
-            background: rgba(22, 27, 34, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(30,36,46,0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             padding: 18px;
             border-radius: 14px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }}
 
         div[data-testid="stMetricLabel"] {{
-            color: #8b949e;
+            color: #a8b0bd;
         }}
 
 
@@ -165,7 +165,7 @@ st.markdown(
             border-radius: 10px;
             padding: 0.65rem 1rem;
             font-weight: 700;
-            border: 1px solid #30363d;
+            border: 1px solid #3a414b;
             transition: 0.2s;
         }}
 
