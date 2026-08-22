@@ -16,7 +16,7 @@ from trainer import (
     train_regression_models,
 )
 
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 from sklearn.pipeline import Pipeline
 
 st.set_page_config(
@@ -230,13 +230,11 @@ def optimize_models(
             ("model", model)
         ])
 
-        search = RandomizedSearchCV(
+        search = GridSearchCV(
             estimator=pipeline,
-            param_distributions=param_grids[name],
-            n_iter=3,
+            param_grid=param_grids[name],  
             cv=3,
             scoring=scoring,
-            random_state=42,
             n_jobs=-1,
             refit=True
         )
