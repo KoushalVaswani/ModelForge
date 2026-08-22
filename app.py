@@ -16,8 +16,9 @@ from trainer import (
     train_regression_models,
 )
 
-from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
+from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import Pipeline
+
 try:
     st.set_page_config(
         page_title="ModelForge",
@@ -27,24 +28,21 @@ try:
     )
     
     # =====================================================
-    # MODELFORGE UI STYLING
+    # MODELFORGE UI STYLING (Safe Background Handling)
     # =====================================================
     
     background_path = Path("ModelForge.png")
+    encoded_image = ""
     
-    with open(background_path, "rb") as image_file:
-        encoded_image = base64.b64encode(
-            image_file.read()
-        ).decode()
+    if background_path.exists():
+        with open(background_path, "rb") as image_file:
+            encoded_image = base64.b64encode(
+                image_file.read()
+            ).decode()
     
-    st.markdown(
-        f"""
-        <style>
-    
-            /* ================================
-               FULL BACKGROUND
-               ================================ */
-    
+    background_style = ""
+    if encoded_image:
+        background_style = f"""
             .stApp {{
                 background:
                     linear-gradient(
@@ -52,13 +50,23 @@ try:
                         rgba(5, 7, 13, 0.55)
                     ),
                     url("data:image/png;base64,{encoded_image}");
-    
                 background-size: cover;
                 background-position: center;
                 background-attachment: fixed;
                 background-repeat: no-repeat;
             }}
-    
+        """
+    else:
+        background_style = """
+            .stApp {{
+                background-color: #05070d;
+            }}
+        """
+
+    st.markdown(
+        f"""
+        <style>
+            {background_style}
     
             /* ================================
                STREAMLIT MAIN AREA
@@ -210,6 +218,7 @@ try:
         """,
         unsafe_allow_html=True
     )
+
     def optimize_models(
         X,
         y,
@@ -394,7 +403,7 @@ try:
     
         st.dataframe(
             df.head(10),
-            width="stretch"
+            use_container_width=True
         )
     
         # =========================================================
@@ -412,7 +421,7 @@ try:
     
         st.dataframe(
             column_info,
-            width="stretch"
+            use_container_width=True
         )
     
         # =========================================================
@@ -563,7 +572,7 @@ try:
     
                     st.dataframe(
                         results_df,
-                        width="stretch"
+                        use_container_width=True
                     )
                     st.subheader("📊 Model Performance Comparison")
     
@@ -575,10 +584,7 @@ try:
     
                         chart_df = chart_df.set_index("Model")
     
-                        st.bar_chart(
-                            chart_df,
-                            width="stretch"
-                        )
+                        st.bar_chart(chart_df)
     
                     else:
     
@@ -588,10 +594,7 @@ try:
     
                         chart_df = chart_df.set_index("Model")
     
-                        st.bar_chart(
-                            chart_df,
-                            width="stretch"
-                        )
+                        st.bar_chart(chart_df)
     
             # =====================================================
             # HYPERPARAMETER OPTIMIZATION
@@ -601,7 +604,7 @@ try:
     
             st.write(
                 "Optimize selected models using cross-validation "
-                "and randomized hyperparameter search."
+                "and grid search."
             )
     
             if st.button("🔥 Optimize Models"):
@@ -615,7 +618,6 @@ try:
                         models = get_classification_models()
                         param_grids = get_classification_param_grids()
     
-                        # Keep only models that have tuning parameters
                         tuning_models = {
                             name: model
                             for name, model in models.items()
@@ -653,7 +655,6 @@ try:
     
                     tuning_df = pd.DataFrame(tuning_results)
     
-                    # Sort by best score
                     tuning_df = tuning_df.sort_values(
                         by="Best Score",
                         ascending=False
@@ -661,7 +662,6 @@ try:
     
                     st.subheader("🏆 Optimized Model Results")
     
-                    # Display only useful columns
                     display_df = tuning_df[
                         [
                             "Model",
@@ -672,11 +672,8 @@ try:
     
                     st.dataframe(
                         display_df,
-                        width="stretch"
+                        use_container_width=True
                     )
-                    # =====================================================
-                    # BEST MODEL SELECTION
-                    # =====================================================
     
                     best_result = tuning_df.iloc[0]
     
@@ -684,11 +681,6 @@ try:
                     best_score = best_result["Best Score"]
                     best_parameters = best_result["Best Parameters"]
                     best_estimator = best_result["Best Estimator"]
-    
-    
-                    # =====================================================
-                    # RECOMMENDED MODEL
-                    # =====================================================
     
                     st.header("🏆 Recommended Model")
     
@@ -718,21 +710,11 @@ try:
     
                         st.success("✨ Optimized & Recommended")
     
-    
-                    # =====================================================
-                    # BEST HYPERPARAMETERS
-                    # =====================================================
-    
                     st.subheader("⚙️ Best Hyperparameters")
     
                     with st.expander("View optimized parameters"):
     
                         st.json(best_parameters)
-    
-    
-                    # =====================================================
-                    # FINAL TEST PERFORMANCE
-                    # =====================================================
     
                     st.header("📈 Final Test Performance")
     
